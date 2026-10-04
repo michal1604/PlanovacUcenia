@@ -129,7 +129,7 @@ h2{font-family:var(--f-display);font-weight:600;font-size:19px;margin:0 0 10px}
 .layout{display:grid;grid-template-columns:minmax(0,370px) minmax(0,1fr);grid-template-areas:"tt cal" "plan plan";gap:18px;align-items:start}
 .a-tt{grid-area:tt}.a-cal{grid-area:cal}
 .a-plan{grid-area:plan}
-.plan{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.plan{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:12px}
 .plan>p{grid-column:1/-1;margin:0}
 @media (max-width:1100px){.layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"tt" "cal" "plan"}}
 table.tt{min-width:320px;border-spacing:3px}
@@ -192,6 +192,47 @@ button.status{border:1px solid var(--line);background:var(--surface);color:var(-
 .mini td,.mini th{border:1px solid var(--line);padding:3px 5px;text-align:center}
 .err{color:var(--test);font-size:13px}
 .hint{font-size:13px;color:var(--muted);margin:0}
+
+/* mobil */
+.agenda{display:none;flex-direction:column;gap:10px}
+.agdays{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.agdays button{flex:1 1 0;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font:600 13px var(--f-body);padding:7px 2px;border-radius:10px;cursor:pointer;text-align:center;min-width:0}
+.agdays button small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+.agdays button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.agdays button[aria-pressed="true"] small{color:var(--bg)}
+.agdays button.hastest{box-shadow:inset 0 -3px 0 var(--test)}
+.aglist{display:flex;flex-direction:column;gap:6px}
+.ag{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;align-items:center;padding:9px 10px;border-radius:10px;font-size:14px}
+.ag .tm{font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+.ag.k-free{opacity:1;color:var(--accent);border:1px dashed var(--accent)}
+.ag.k-study{border:1.5px solid var(--accent)}
+.ag.k-study.bad{border-color:var(--test)}
+.ag .why{display:block;font-size:12px;color:var(--test)}
+.agtest{font-size:13px;font-weight:700;color:var(--test)}
+@media (max-width:700px){
+  .a-cal .scroll,.a-cal .legend{display:none}
+  .agenda{display:flex}
+  .wrap{padding-block:12px 32px;gap:14px}
+  .panel{padding:12px}
+  h1{font-size:24px}
+  .sub{font-size:13.5px}
+  .bar{flex-direction:column;align-items:stretch}
+  .toolbar .btn{flex:1 1 auto}
+  .weeknav{justify-content:space-between}
+  .stats{gap:12px}
+  .stats b{font-size:18px}
+  .plan{grid-template-columns:minmax(0,1fr)}
+  .slot{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr) 34px}
+  .slot select,.sheet input,.sheet select,.trow input,.cfg select{font-size:16px}
+  .slot .x{width:34px;height:34px}
+  table.tt{min-width:0;border-spacing:2px}
+  .tt th.day{width:30px;font-size:12px}
+  .tt th.day small{font-size:10px}
+  .tt th .t{display:none}
+  .cell{min-height:40px;font-size:12px;padding:3px 0}
+  .empty{min-height:40px}
+  .trow{grid-template-columns:28px minmax(0,1fr) 76px 76px}
+}
 </style>
 
 <div class="wrap">
@@ -228,6 +269,7 @@ button.status{border:1px solid var(--line);background:var(--surface);color:var(-
       <div class="headrow"><h2>Kalendár učenia</h2></div>
       <div class="stats" id="stats"></div>
       <div class="scroll"><div class="cal" id="cal"></div></div>
+      <div class="agenda" id="agenda"></div>
       <div class="legend">
         <span><i style="background:var(--accent-soft);border-color:var(--accent)"></i>učenie</span>
         <span><i style="background:var(--train-bg)"></i>tréning</span>
@@ -542,6 +584,25 @@ function renderTT(){
     ?`<span>Ťukni na hodinu a vyber predmet. Rozvrh platí pre každý týždeň.</span>`
     :`${S.sampleTT?`<span class="short">Toto je ukážkový rozvrh. Nahraj svoj z obrázka alebo ho uprav.</span>`:""}<span>Ťukni na hodinu, kde píšeš test alebo písomku.</span><span><i style="display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:6px;background:var(--test-soft);border:1px solid var(--test)"></i>treba sa pripraviť</span>`;
 }
+let agDay=null;
+function renderAgenda(place,rep,days){
+  if(agDay===null||agDay>6){const t=days.findIndex(d=>iso(d)===iso(TODAY));agDay=t>=0?t:0}
+  const d=days[agDay],di=iso(d);
+  const testDay=x=>Object.keys(S.marks).some(k=>k.startsWith(iso(x)+"_"));
+  let h=`<div class="agdays">${days.map((x,i)=>`<button type="button" data-i="${i}" aria-pressed="${i===agDay}" class="${testDay(x)?"hastest":""}">${DAYN[x.getDay()]}<small>${dshort(x)}</small></button>`).join("")}</div>`;
+  const tests=Object.keys(S.marks).filter(k=>k.startsWith(di+"_"));
+  if(tests.length)h+=`<div class="agtest">${tests.map(k=>TYPES[S.marks[k].type]+" – "+esc(sname(rep[k].subj))).join(" · ")}</div>`;
+  const mine=place.filter(p=>p.date===di);
+  const items=[];
+  for(const b of fixedBlocks(d).blocks){if(b.k==="rest")continue;items.push({s:b.s,e:b.e,html:`<span class="tm">${hm(b.s)}–${hm(b.e)}</span><span>${esc(b.k==="school"?"Škola":b.l)}</span>`,cls:"k-"+b.k})}
+  if(d>=TODAY)for(const w of freeWindows(d,mine.map(p=>[p.s,p.e])))items.push({s:w[0],e:w[1],html:`<span class="tm">${hm(w[0])}–${hm(w[1])}</span><span>Voľný čas</span>`,cls:"k-free"});
+  for(const p of mine){const r=rep[p.key];items.push({s:p.s,e:p.e,key:p.key,html:`<span class="tm">${hm(p.s)}–${hm(p.e)}</span><span><b><span class="dot" style="background:hsl(${hue(r.subj)} 65% 48%)"></span>Učenie ${esc(r.subj)}</b> · na ${TYPES[r.m.type].toLowerCase().split(" ")[0]} ${DAYN[r.date.getDay()]} ${dshort(r.date)}${p.issues.length?`<span class="why">${p.issues.join(" · ")}</span>`:""}</span>`,cls:"k-study"+(p.issues.length?" bad":"")})}
+  items.sort((a,b)=>a.s-b.s||a.e-b.e);
+  h+=`<div class="aglist">${items.map(it=>`<div class="ag ${it.cls}"${it.key?` data-k="${it.key}"`:""}>${it.html}</div>`).join("")}<div class="ag k-rest"><span class="tm">${hm(S.cfg.end)}</span><span>Koniec učenia, spánok</span></div></div>`;
+  $("agenda").innerHTML=h;
+  $("agenda").querySelectorAll(".agdays button").forEach(b=>b.onclick=()=>{agDay=+b.dataset.i;render()});
+  $("agenda").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>focusPlan(b.dataset.k));
+}
 function renderCal(){
   const {place,rep}=last,days=weekDays(),{a0,a1}=axis(),H=(a1-a0)*PX;
   const y=m=>(Math.max(m,a0)-a0)*PX;
@@ -571,6 +632,7 @@ function renderCal(){
     html+=c;
   }
   $("cal").innerHTML=html;
+  renderAgenda(place,rep,days);
   $("cal").querySelectorAll(".k-study").forEach(b=>b.onclick=()=>focusPlan(b.dataset.k));
   const wS=days[0],wE=addDays(days[6],1);
   const n=Object.values(rep).filter(r=>r.date>=wS&&r.date<wE).length;
@@ -770,8 +832,8 @@ $("im-use").onclick=()=>{
 };
 
 /* ---------- ovládanie ---------- */
-$("prev").onclick=()=>{if(week>0){week--;render()}};
-$("next").onclick=()=>{if(week<WEEKS-1){week++;render()}};
+$("prev").onclick=()=>{if(week>0){week--;agDay=0;render()}};
+$("next").onclick=()=>{if(week<WEEKS-1){week++;agDay=0;render()}};
 $("b-edit").onclick=()=>{editTT=!editTT;render()};
 $("b-set").onclick=openSet;
 $("b-import").onclick=openImp;
