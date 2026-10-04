@@ -1,34 +1,40 @@
-<!doctype html><html lang="sk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="theme-color" content="#0B7A75"><meta name="apple-mobile-web-app-title" content="Učenie"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" href="/icon-192.png"><link rel="manifest" href="/manifest.webmanifest"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="sk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="theme-color" content="#FFF7F0"><meta name="apple-mobile-web-app-title" content="Učenie"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" href="/icon-192.png"><link rel="manifest" href="/manifest.webmanifest"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
 <title>Emkin plánovač učenia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,500;6..12,600;6..12,700;6..12,800&display=swap">
 <style>
 /* Layout: aplikácia s dvoma kartami – rozvrh (dni × hodiny) a týždenný kalendár popoludní 12:00–21:00 */
 :root{
-  --bg:#EDF1F6; --surface:#FFFFFF; --surface-2:#F6F8FB; --ink:#17233A; --muted:#5B6880; --line:#D5DCE6;
-  --accent:#0B7A75; --accent-ink:#FFFFFF; --accent-soft:#D3EEEB;
-  --test:#C93C30; --test-soft:#FBE4E1;
-  --train-bg:#FBEBC0; --train-fg:#5E4A0E;
-  --school:#DCE3EE; --travel:#E9EDF3; --dinner:#E4E1F3; --dinner-fg:#3E3570;
-  --warn:#9A5B00; --warn-soft:#FFF1D6;
-  --f-display:"Bricolage Grotesque", "Trebuchet MS", system-ui, sans-serif;
-  --f-body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+  --bg:#FFF7F0; --surface:#FFFFFF; --surface-2:#FBF2EA; --ink:#2E2442; --muted:#7C6F92; --line:#F0E4DA;
+  --accent:#6B4FD8; --accent-ink:#FFFFFF; --accent-soft:#E4DBFF;
+  --test:#D9604C; --test-soft:#FFD9D2;
+  --train-bg:#FFE9A8; --train-fg:#6E5200;
+  --school:#EEE9F5; --travel:#F7EFE7; --dinner:#D6F1E1; --dinner-fg:#2B6646;
+  --warn:#9A5B00; --warn-soft:#FFF0CF;
+  --pl:88%; --ps:85%; --pfg:28%;
+  --shadow:0 8px 24px rgba(46,36,66,.07);
+  --f-display:"Fredoka", "Trebuchet MS", system-ui, sans-serif;
+  --f-body:"Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"Nunito Sans", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0E1420; --surface:#171F30; --surface-2:#1C2538; --ink:#E6EBF4; --muted:#95A2BA; --line:#2B3651;
-  --accent:#3CC3B8; --accent-ink:#06201E; --accent-soft:#123F3B;
-  --test:#FF7D6E; --test-soft:#45201C;
-  --train-bg:#3D3313; --train-fg:#F3DB92;
-  --school:#202A40; --travel:#1B2335; --dinner:#2A2648; --dinner-fg:#CFC8F5;
-  --warn:#F2B866; --warn-soft:#3A2A10; color-scheme:dark}}
+  --bg:#1C1828; --surface:#272135; --surface-2:#2E2740; --ink:#F3EEFA; --muted:#B4A9C9; --line:#3A3250;
+  --accent:#B9A6FF; --accent-ink:#1C1828; --accent-soft:#3B3166;
+  --test:#FF9C88; --test-soft:#4A2A2B;
+  --train-bg:#4A3F1A; --train-fg:#FFE39A;
+  --school:#322A46; --travel:#2A2339; --dinner:#20402E; --dinner-fg:#BDECCF;
+  --warn:#F2B866; --warn-soft:#3A2A10;
+  --pl:30%; --ps:40%; --pfg:92%;
+  --shadow:0 8px 24px rgba(0,0,0,.25); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0E1420; --surface:#171F30; --surface-2:#1C2538; --ink:#E6EBF4; --muted:#95A2BA; --line:#2B3651;
-  --accent:#3CC3B8; --accent-ink:#06201E; --accent-soft:#123F3B;
-  --test:#FF7D6E; --test-soft:#45201C;
-  --train-bg:#3D3313; --train-fg:#F3DB92;
-  --school:#202A40; --travel:#1B2335; --dinner:#2A2648; --dinner-fg:#CFC8F5;
-  --warn:#F2B866; --warn-soft:#3A2A10; color-scheme:dark}
+  --bg:#1C1828; --surface:#272135; --surface-2:#2E2740; --ink:#F3EEFA; --muted:#B4A9C9; --line:#3A3250;
+  --accent:#B9A6FF; --accent-ink:#1C1828; --accent-soft:#3B3166;
+  --test:#FF9C88; --test-soft:#4A2A2B;
+  --train-bg:#4A3F1A; --train-fg:#FFE39A;
+  --school:#322A46; --travel:#2A2339; --dinner:#20402E; --dinner-fg:#BDECCF;
+  --warn:#F2B866; --warn-soft:#3A2A10;
+  --pl:30%; --ps:40%; --pfg:92%;
+  --shadow:0 8px 24px rgba(0,0,0,.25); color-scheme:dark}
 
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45}
 .wrap{max-width:1120px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
@@ -233,13 +239,76 @@ button.status{border:1px solid var(--line);background:var(--surface);color:var(-
   .empty{min-height:40px}
   .trow{grid-template-columns:28px minmax(0,1fr) 76px 76px}
 }
+
+/* ---- Pastelky ---- */
+body{font-feature-settings:"tnum"}
+h1{font-family:var(--f-display);font-weight:700;letter-spacing:0}
+h2{font-family:var(--f-display);font-weight:600}
+.panel{border:0;border-radius:26px;box-shadow:var(--shadow)}
+.btn{border-radius:999px;border-color:transparent;background:var(--surface);box-shadow:var(--shadow);font-family:var(--f-display);font-weight:600}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.on{background:var(--accent-soft);color:var(--accent);box-shadow:none}
+.weeknav button{border:0;border-radius:14px;box-shadow:var(--shadow)}
+.weeklabel{font-family:var(--f-display);font-weight:600}
+button.status{border:0;box-shadow:var(--shadow);border-radius:999px}
+.cell{border:0;border-radius:12px;background:var(--surface-2);font-family:var(--f-display);font-weight:600}
+.cell.marked{background:var(--test-soft);box-shadow:inset 0 0 0 2px var(--test)}
+.cell.editing{box-shadow:inset 0 0 0 1.5px var(--line)}
+.blk{border-radius:12px}
+.k-travel{background:var(--travel);border:0}
+.k-study{background:hsl(var(--h,260) var(--ps) var(--pl));border:0;color:hsl(var(--h,260) 45% var(--pfg))}
+.k-study.bad{box-shadow:inset 0 0 0 2px var(--test)}
+.k-free{border:1.5px dashed var(--accent);opacity:.45}
+.pitem{border:0;border-radius:20px;background:var(--surface-2)}
+.pitem li{border-radius:999px}
+.mode{border:0;background:var(--surface)}
+.slot select{border:0;border-radius:12px;background:var(--surface)}
+.slot .x{border:0;border-radius:12px}
+.sheet{border-radius:26px}
+.chips button{border:0;background:var(--surface-2)}
+.chips button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.subjgrid button{border:0;border-radius:14px}
+.subjgrid button[aria-pressed="true"]{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent)}
+.sheet input[type=text],.sheet select,.trow input,.cfg select{border:0!important;border-radius:12px!important}
+.agdays button{border:0;border-radius:14px;font-family:var(--f-display)}
+.agdays button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.agdays button[aria-pressed="true"] small{color:var(--accent-ink)}
+.agdays button.hastest{box-shadow:inset 0 -3px 0 var(--test)}
+.ag{border-radius:16px;padding:10px 12px}
+.ag .tm{font-family:var(--f-display);font-weight:600}
+.ag.k-study{border:0}
+.ag.k-free{border:1.5px dashed var(--accent);opacity:.8;color:var(--accent)}
+.ag.k-rest{border:0;background:var(--surface-2)}
+.hello{font-size:14px;font-weight:600;color:var(--muted);margin:0}
+/* najbližšie testy */
+.upcoming{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.ucard{border:0;text-align:left;cursor:pointer;border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:6px;background:hsl(var(--h) var(--ps) var(--pl));color:hsl(var(--h) 45% var(--pfg));font-family:var(--f-body)}
+.ucard .d{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;opacity:.85}
+.ucard .t{font:600 20px/1.15 var(--f-display)}
+.ucard .bars{display:flex;gap:4px;margin-top:2px}
+.ucard .bars i{flex:1;height:8px;border-radius:4px;background:currentColor;opacity:.25}
+.ucard .bars i.done{opacity:.9}
+.ucard .n{font-size:12.5px;font-weight:700}
+.uempty{color:var(--muted);margin:0;font-size:14px}
+.tabbar{display:none}
+@media (max-width:700px){
+  .upcoming{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding-inline:16px;padding-bottom:4px}
+  .ucard{flex:0 0 62%;scroll-snap-align:start}
+  .wrap{padding-bottom:110px}
+  .tabbar{display:flex;position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:5;background:var(--surface);border-radius:26px;padding:6px;gap:4px;box-shadow:0 10px 30px rgba(46,36,66,.18)}
+  .tabbar button{flex:1 1 0;border:0;background:transparent;color:var(--muted);font:600 15px var(--f-display);padding:12px 0;border-radius:20px;cursor:pointer}
+  .tabbar button[aria-selected="true"]{background:var(--accent-soft);color:var(--accent)}
+  body.t-dnes .a-tt,body.t-dnes .a-plan,body.t-dnes .toolbar{display:none}
+  body.t-rozvrh .a-cal,body.t-rozvrh .a-plan,body.t-rozvrh .upwrap{display:none}
+  body.t-testy .a-tt,body.t-testy .a-cal,body.t-testy .toolbar,body.t-testy .upwrap,body.t-testy .weeknav{display:none}
+}
 </style>
 
 <div class="wrap">
   <header>
     <div>
-      <h1>Emkin plánovač učenia</h1>
-      <p class="sub">Označ v rozvrhu testy a plánovač ti nájde čas na učenie medzi školou, tréningami a večerou.</p>
+      <p class="hello" id="hello"></p>
+      <h1>Ahoj, Emka</h1>
     </div>
     <button type="button" class="status" id="status"><i></i><span>Načítavam…</span></button>
   </header>
@@ -257,6 +326,11 @@ button.status{border:1px solid var(--line);background:var(--surface);color:var(-
     </div>
   </div>
   <div class="note" id="sample-note" hidden></div>
+
+  <section class="upwrap">
+    <div class="headrow"><h2>Najbližšie testy</h2></div>
+    <div class="upcoming" id="upcoming"></div>
+  </section>
 
   <div class="layout">
     <section class="panel a-tt">
@@ -291,6 +365,12 @@ button.status{border:1px solid var(--line);background:var(--surface);color:var(-
     </aside>
   </div>
 </div>
+
+<nav class="tabbar" role="tablist" aria-label="Sekcie">
+  <button type="button" role="tab" data-tab="dnes" aria-selected="true">Dnes</button>
+  <button type="button" role="tab" data-tab="rozvrh" aria-selected="false">Rozvrh</button>
+  <button type="button" role="tab" data-tab="testy" aria-selected="false">Testy</button>
+</nav>
 
 <!-- test -->
 <div class="overlay" id="ov-test" hidden>
@@ -401,7 +481,10 @@ const toMin=t=>{const m=/^(\d{1,2})[:.](\d{2})$/.exec(String(t).trim());return m
 const dshort=d=>d.getDate()+". "+(d.getMonth()+1)+".";
 const dur=m=>m<60?m+" min":(m%60?(m/60).toString().replace(".",",")+" h":m/60+" h");
 const esc=t=>String(t??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const hue=c=>{let h=0;for(const ch of String(c))h=(h*31+ch.charCodeAt(0))%360;return h};
+const HUES={MAT:212,CHE:10,FYZ:268,SJL:330,SJA:300,KAJ:28,JPAJ:186,ANJ:186,DEJ:95,NAB:48,OBN:150,TSV:122,VYV:350,HUV:240,ADV:200,BIO:140,GEG:170,INF:225,NEJ:60};
+const PAL=[212,10,268,330,28,186,95,150,300,240];
+const hue=c=>{if(HUES[c]!=null)return HUES[c];let h=0;for(const ch of String(c))h=(h*31+ch.charCodeAt(0))%997;return PAL[h%PAL.length]};
+const NA={test:"test",pis:"písomku",ust:"ústne skúšanie",proj:"projekt"};
 const sname=c=>S.subjects[c]||c;
 const subjOf=(dIso,h)=>(S.tt[fromIso(dIso).getDay()]||[])[h];
 const lastLesson=dow=>{const t=S.tt[dow]||[];for(let i=t.length-1;i>=0;i--)if(t[i])return i;return -1};
@@ -596,9 +679,9 @@ function renderAgenda(place,rep,days){
   const items=[];
   for(const b of fixedBlocks(d).blocks){if(b.k==="rest")continue;items.push({s:b.s,e:b.e,html:`<span class="tm">${hm(b.s)}–${hm(b.e)}</span><span>${esc(b.k==="school"?"Škola":b.l)}</span>`,cls:"k-"+b.k})}
   if(d>=TODAY)for(const w of freeWindows(d,mine.map(p=>[p.s,p.e])))items.push({s:w[0],e:w[1],html:`<span class="tm">${hm(w[0])}–${hm(w[1])}</span><span>Voľný čas</span>`,cls:"k-free"});
-  for(const p of mine){const r=rep[p.key];items.push({s:p.s,e:p.e,key:p.key,html:`<span class="tm">${hm(p.s)}–${hm(p.e)}</span><span><b><span class="dot" style="background:hsl(${hue(r.subj)} 65% 48%)"></span>Učenie ${esc(r.subj)}</b> · na ${TYPES[r.m.type].toLowerCase().split(" ")[0]} ${DAYN[r.date.getDay()]} ${dshort(r.date)}${p.issues.length?`<span class="why">${p.issues.join(" · ")}</span>`:""}</span>`,cls:"k-study"+(p.issues.length?" bad":"")})}
+  for(const p of mine){const r=rep[p.key];items.push({s:p.s,e:p.e,key:p.key,html:`<span class="tm">${hm(p.s)}–${hm(p.e)}</span><span><b>Učenie ${esc(r.subj)}</b> · na ${NA[r.m.type]} ${DAYN[r.date.getDay()]} ${dshort(r.date)}${p.issues.length?`<span class="why">${p.issues.join(" · ")}</span>`:""}</span>`,cls:"k-study"+(p.issues.length?" bad":""),h:hue(r.subj)})}
   items.sort((a,b)=>a.s-b.s||a.e-b.e);
-  h+=`<div class="aglist">${items.map(it=>`<div class="ag ${it.cls}"${it.key?` data-k="${it.key}"`:""}>${it.html}</div>`).join("")}<div class="ag k-rest"><span class="tm">${hm(S.cfg.end)}</span><span>Koniec učenia, spánok</span></div></div>`;
+  h+=`<div class="aglist">${items.map(it=>`<div class="ag ${it.cls}"${it.key?` data-k="${it.key}"`:""}${it.h!=null?` style="--h:${it.h}"`:""}>${it.html}</div>`).join("")}<div class="ag k-rest"><span class="tm">${hm(S.cfg.end)}</span><span>Koniec učenia, spánok</span></div></div>`;
   $("agenda").innerHTML=h;
   $("agenda").querySelectorAll(".agdays button").forEach(b=>b.onclick=()=>{agDay=+b.dataset.i;render()});
   $("agenda").querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>focusPlan(b.dataset.k));
@@ -626,7 +709,7 @@ function renderCal(){
     }
     for(const p of mine){
       total+=p.e-p.s;const r=rep[p.key],top=y(p.s),hh=(p.e-p.s)*PX;
-      c+=`<div class="blk k-study${p.issues.length?" bad":""}" data-k="${p.key}" style="top:${top}px;height:${hh-2}px" title="${esc(sname(r.subj))} – ${TYPES[r.m.type]} ${DAYN[r.date.getDay()]} ${dshort(r.date)}${p.issues.length?" · "+p.issues.join(", "):""}"><b><span class="dot" style="background:hsl(${hue(r.subj)} 65% 48%)"></span>${esc(r.subj)} · ${dur(p.e-p.s)}</b><span class="tm">${hm(p.s)}–${hm(p.e)}</span>${hh>48?`<br>na ${TYPES[r.m.type].toLowerCase().split(" ")[0]} ${DAYN[r.date.getDay()]}`:""}</div>`;
+      c+=`<div class="blk k-study${p.issues.length?" bad":""}" data-k="${p.key}" style="--h:${hue(r.subj)};top:${top}px;height:${hh-2}px" title="${esc(sname(r.subj))} – ${TYPES[r.m.type]} ${DAYN[r.date.getDay()]} ${dshort(r.date)}${p.issues.length?" · "+p.issues.join(", "):""}"><b>${esc(r.subj)} · ${dur(p.e-p.s)}</b><span class="tm">${hm(p.s)}–${hm(p.e)}</span>${hh>48?`<br>na ${NA[r.m.type]} ${DAYN[r.date.getDay()]}`:""}</div>`;
     }
     c+=`<div class="nightline" style="top:${y(S.cfg.end)}px" title="${hm(S.cfg.end)} spánok"></div></div>`;
     html+=c;
@@ -683,7 +766,32 @@ function renderRules(){
     `Keď zmeníš čas alebo dĺžku, test sa prepne na ručný plán a automatika ho už nemení.`
   ].map(t=>`<li>${t}</li>`).join("");
 }
-function render(){last=plan();renderNav();renderTT();renderPlan();renderCal();renderRules()}
+const MESN=["januára","februára","marca","apríla","mája","júna","júla","augusta","septembra","októbra","novembra","decembra"];
+function renderUpcoming(){
+  const {rep}=last;
+  $("hello").textContent=DAYLONG[TODAY.getDay()].toLowerCase()+" "+TODAY.getDate()+". "+MESN[TODAY.getMonth()];
+  const list=Object.values(rep).filter(r=>r.date>=TODAY).sort((a,b)=>a.date-b.date).slice(0,6);
+  if(!list.length){$("upcoming").innerHTML=`<p class="uempty">Žiadny test na obzore. Označ ho v rozvrhu.</p>`;return}
+  const dayTxt=d=>{const n=Math.round((d-TODAY)/864e5);return n===0?"dnes":n===1?"zajtra":DAYLONG[d.getDay()]};
+  $("upcoming").innerHTML=list.map(r=>{
+    const done=p=>{const d=fromIso(p.date);return d<TODAY||(iso(d)===iso(TODAY)&&p.e<=NOWMIN)};
+    const bars=r.slots.map(p=>`<i class="${done(p)?"done":""}"></i>`).join("")||"<i></i>";
+    const todayMin=r.slots.filter(p=>p.date===iso(TODAY)).reduce((a,p)=>a+p.e-p.s,0);
+    const next=r.slots.find(p=>!done(p));
+    const n=todayMin?`dnes ${dur(todayMin)}`:next?`ďalej ${DAYN[fromIso(next.date).getDay()]} ${dur(next.e-next.s)}`:(r.total?"pripravená":"bez plánu");
+    return `<button type="button" class="ucard" data-k="${r.key}" style="--h:${hue(r.subj)}"><span class="d">${dayTxt(r.date)} · ${dshort(r.date)}</span><span class="t">${TYPES[r.m.type].split(" ")[0]} ${esc(r.subj)}</span><span class="bars">${bars}</span><span class="n">${n}</span></button>`;
+  }).join("");
+  $("upcoming").querySelectorAll(".ucard").forEach(b=>b.onclick=()=>{setTab("testy");setTimeout(()=>focusPlan(b.dataset.k),30)});
+}
+let tab="dnes";
+function setTab(t){
+  tab=t;document.body.classList.remove("t-dnes","t-rozvrh","t-testy");document.body.classList.add("t-"+t);
+  document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===t));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll(".tabbar button").forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+setTab("dnes");
+function render(){last=plan();renderNav();renderTT();renderPlan();renderCal();renderRules();renderUpcoming()}
 function commit(){save();render()}
 
 function toManual(k){if(!S.marks[k].slots)S.marks[k].slots=last.rep[k].slots.map(p=>({d:p.date,s:p.s,m:p.e-p.s}))}
@@ -694,7 +802,7 @@ function addSlot(k){
     if(w.length){S.marks[k].slots.push({d:iso(d),s:w[0][0],m:Math.min(60,Math.floor((w[0][1]-w[0][0])/30)*30)});return commit()}}
   const d=addDays(r.date,-1);S.marks[k].slots.push({d:iso(d<TODAY?TODAY:d),s:S.cfg.end-30,m:30});commit();
 }
-function focusPlan(k){const el=$("pi-"+k);if(!el)return;el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1400)}
+function focusPlan(k){if(matchMedia("(max-width:700px)").matches&&tab!=="testy")setTab("testy");const el=$("pi-"+k);if(!el)return;el.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1400)}
 
 /* ---------- okná ---------- */
 let openOv=null;
