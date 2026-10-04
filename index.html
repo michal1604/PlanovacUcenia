@@ -386,7 +386,8 @@ async function pushNet(){
   try{
     const r=await fetch("/api/state",{method:"PUT",headers:{"content-type":"application/json","x-sync-code":syncCode},body:JSON.stringify(S)});
     if(r.status===401){setStatus(false,"Neplatný kód – nastav ho znova");return}
-    if(!r.ok)throw 0;
+    if(r.status===404){setStatus(false,"Na serveri chýba funkcia na ukladanie");return}
+    if(!r.ok){setStatus(false,"Chyba servera ("+r.status+")");return}
     setStatus(true,"Uložené online");
   }catch(e){setStatus(false,"Offline – uložené len v tomto zariadení")}
 }
@@ -394,10 +395,13 @@ async function pullNet(){
   if(!syncCode){setStatus(false,"Nastav synchronizáciu");return}
   try{
     const r=await fetch("/api/state",{headers:{"x-sync-code":syncCode},cache:"no-store"});
-    if(r.status===404){if(S.updatedAt)await pushNet();else setStatus(true,"Synchronizácia zapnutá");return}
+    if(r.status===404){setStatus(false,"Na serveri chýba funkcia na ukladanie");return}
     if(r.status===401){setStatus(false,"Neplatný kód – nastav ho znova");return}
-    if(!r.ok)throw 0;
-    const st=migrate(await r.json());
+    if(!r.ok){setStatus(false,"Chyba servera ("+r.status+")");return}
+    const body=await r.json().catch(()=>null);
+    if(!body){setStatus(false,"Server neodpovedá správne");return}
+    if(body.empty){if(S.updatedAt)await pushNet();else setStatus(true,"Synchronizácia zapnutá");return}
+    const st=migrate(body);
     if(st&&(st.updatedAt||0)>(S.updatedAt||0)){S=st;localWrite();render()}
     else if(st&&(S.updatedAt||0)>(st.updatedAt||0)){await pushNet();return}
     setStatus(true,"Synchronizované");
